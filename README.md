@@ -86,7 +86,8 @@ python client.py
 </li>
 
 <li>
-  Then, you can see the server terminal collecting the order details from client and display the bills and feedback like this:
+  Then, you can see the server terminal collecting the order details from the client
+  and displaying the bills and feedback like this:
 
   
   <img width="632" alt="image" src="https://github.com/user-attachments/assets/93f6687a-6644-4a75-8b34-2e26e4772c20" />
