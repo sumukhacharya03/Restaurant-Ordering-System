@@ -78,7 +78,7 @@ python client.py
 </li>
 
 <li>
-  Then, you can use the client terminal to browse menus, order food, view bills, and provide feedback like this:
+  Then, you can use the client terminal to browse menus, order food, view bills, and provide feedback like this: <br/>
   
   <img width="376" alt="image" src="https://github.com/user-attachments/assets/26a8e396-7850-4ce8-a903-a584445cec62" />
 
