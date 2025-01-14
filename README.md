@@ -79,12 +79,14 @@ python client.py
 
 <li>
   Then, you can use the client terminal to browse menus, order food, view bills, and provide feedback like this:
+  
   <img width="376" alt="image" src="https://github.com/user-attachments/assets/26a8e396-7850-4ce8-a903-a584445cec62" />
 
 </li>
 
 <li>
   And simultaneously you can see the server terminal collecting the order details from client and display the bills and feedback like this:
+  
   <img width="632" alt="image" src="https://github.com/user-attachments/assets/93f6687a-6644-4a75-8b34-2e26e4772c20" />
 
 </li>
