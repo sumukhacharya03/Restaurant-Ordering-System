@@ -23,20 +23,30 @@ def show_bill(total_price):
     print(f"Total Price: ₹{total_price}")
 
 def main():
-    host = "192.168.4.145"  # Change this to the server's IP address
+    # Use localhost if testing on same machine
+    host = "localhost"  # or "127.0.0.1"
     port = 8080
 
-    # Establish a regular TCP connection
+    # Create a regular TCP socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    # Set a timeout for the connection attempt
+    client_socket.settimeout(10)
 
-    # Create an SSL context
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    # Create an SSL context with modern protocol
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    # Don't verify certificate for testing
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    
     # Wrap the socket with SSL
     ssl_socket = ssl_context.wrap_socket(client_socket, server_hostname=host)
 
     try:
         # Connect to the server
+        print(f"Attempting to connect to {host}:{port}...")
         ssl_socket.connect((host, port))
+        print("Connected successfully!")
 
         while True:
             print("\nOptions:")
@@ -49,45 +59,45 @@ def main():
             option = input("Select an option: ")
 
             if option == '1':
-                # Send option 1 to server to request menu
                 ssl_socket.send(pickle.dumps(option))
-                # Receive and display menu
                 menu = pickle.loads(ssl_socket.recv(1024))
                 display_menu(menu)
             elif option == '2':
-                # Send option 2 to server to place order
                 ssl_socket.send(pickle.dumps(option))
-                # Place order
                 order = place_order()
-                # Send order to server
                 ssl_socket.send(pickle.dumps(order))
-                # Receive total price
                 total_price = pickle.loads(ssl_socket.recv(1024))
                 print(f"Total Price: ₹{total_price}")
             elif option == '3':
-                # Send option 3 to server to request bill
                 ssl_socket.send(pickle.dumps(option))
-                # Send total price
                 ssl_socket.send(pickle.dumps(total_price))
-                # Receive total price
                 total_price = pickle.loads(ssl_socket.recv(1024))
-                show_bill(total_price)  # This will display the total price
+                show_bill(total_price)
             elif option == '4':
-                # Send option 4 to server to request feedback
                 ssl_socket.send(pickle.dumps(option))
                 feedback = input("Enter your feedback: ")
                 ssl_socket.send(pickle.dumps(feedback))
                 print("Thank you for your feedback!")
             elif option == '5':
-                # Send option 5 to server to request exit
                 ssl_socket.send(pickle.dumps(option))
                 print("Exiting...")
                 break
             else:
                 print("Invalid option. Please try again.")
 
+    except socket.timeout:
+        print("Connection timed out. Please check if the server is running and the address is correct.")
+    except ConnectionRefusedError:
+        print("Connection refused. Please check if the server is running.")
+    except ssl.SSLError as e:
+        print(f"SSL Error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
     finally:
-        ssl_socket.close()
+        try:
+            ssl_socket.close()
+        except Exception:
+            pass
 
 if __name__ == "__main__":
     main()
