@@ -86,7 +86,7 @@ python client.py
 </li>
 
 <li>
-  Then, you can use the server terminal to view your orders, bills and feedback:
+  Then, you can use the server terminal to view your orders, bills and feedback like this:
 
   
   <img width="632" alt="image" src="https://github.com/user-attachments/assets/93f6687a-6644-4a75-8b34-2e26e4772c20" />
